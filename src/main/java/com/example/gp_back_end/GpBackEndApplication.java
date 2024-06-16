@@ -11,7 +11,7 @@ public class GpBackEndApplication {
 
     @GetMapping("/welcome")
     public String welcome(){
-        return "Welcome to Coding! /n Let's create the Back End Application";
+        return "Welcome to Coding! \n Let's create the Back End Application";
     }
 
     public static void main(String[] args) {
