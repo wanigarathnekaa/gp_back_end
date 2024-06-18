@@ -31,7 +31,7 @@ jobs:
     - name: Build & push Dockerfile image
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
-        image: ghcr.io/${{ github.actor }}/gp_back_end
+        image: ghcr.io/wanigarathnekaa/gp_back_end
         tags: latest
         registry: ghcr.io
         dockerfile: Dockerfile
