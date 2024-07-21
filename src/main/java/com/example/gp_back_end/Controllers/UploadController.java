@@ -2,7 +2,7 @@ package com.example.gp_back_end.Controllers;
 
 
 import com.example.gp_back_end.Models.UploadLecturerModel;
-import com.example.gp_back_end.Models.UploadModel;
+import com.example.gp_back_end.Models.UploadStudentModel;
 import com.example.gp_back_end.Services.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +42,7 @@ public class UploadController {
     }
 
     @PostMapping("/students")
-    public List<UploadModel> getAllUsers() {
+    public List<UploadStudentModel> getAllUsers() {
         return service.getAllData();
     }
 

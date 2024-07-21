@@ -1,6 +1,5 @@
 package com.example.gp_back_end.Repositories;
 
-
 import com.example.gp_back_end.Models.UploadLecturerModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

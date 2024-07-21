@@ -2,9 +2,9 @@ package com.example.gp_back_end.Services;
 
 import com.example.gp_back_end.Functions.UploadReader;
 import com.example.gp_back_end.Models.UploadLecturerModel;
-import com.example.gp_back_end.Models.UploadModel;
+import com.example.gp_back_end.Models.UploadStudentModel;
 import com.example.gp_back_end.Repositories.LecturerRepository;
-import com.example.gp_back_end.Repositories.UploadRepository;
+import com.example.gp_back_end.Repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class UploadService {
     @Autowired
-    private UploadRepository uploadRepository;
+    private StudentRepository studentRepository;
 
     @Autowired
     private LecturerRepository lecturerRepository;
@@ -24,12 +24,12 @@ public class UploadService {
     private UploadReader uploadReader;
 
     public void importData(MultipartFile file) throws IOException {
-        List<UploadModel> models = uploadReader.readStudentExcel(file);
-        uploadRepository.saveAll(models);
+        List<UploadStudentModel> models = uploadReader.readStudentExcel(file);
+        studentRepository.saveAll(models);
     }
 
-    public List<UploadModel> getAllData() {
-        return uploadRepository.findAll();
+    public List<UploadStudentModel> getAllData() {
+        return studentRepository.findAll();
     }
 
     public void importLecturerData(MultipartFile file) throws IOException {

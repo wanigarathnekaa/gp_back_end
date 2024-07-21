@@ -1,7 +1,7 @@
 package com.example.gp_back_end.Functions;
 
 import com.example.gp_back_end.Models.UploadLecturerModel;
-import com.example.gp_back_end.Models.UploadModel;
+import com.example.gp_back_end.Models.UploadStudentModel;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -45,8 +45,8 @@ public class UploadReader {
         }
     }
 
-    public List<UploadModel> readStudentExcel(MultipartFile file) throws IOException {
-        List<UploadModel> models = new ArrayList<>();
+    public List<UploadStudentModel> readStudentExcel(MultipartFile file) throws IOException {
+        List<UploadStudentModel> models = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
 
@@ -57,24 +57,12 @@ public class UploadReader {
                 continue;
             }
 
-            UploadModel model = new UploadModel();
+            UploadStudentModel model = new UploadStudentModel();
             model.setRegNumber(getCellValue((XSSFCell) row.getCell(0)));
             model.setName(getCellValue((XSSFCell) row.getCell(1)));
             model.setIndexNumber(getCellValue((XSSFCell) row.getCell(2)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(3)));
             model.setNIC(getCellValue((XSSFCell) row.getCell(4)));
-            try {
-                String dobValue = getCellValue((XSSFCell) row.getCell(5));
-                Date DOB = dateFormat.parse(dobValue);
-                model.setDOB(DOB);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            model.setAddress(getCellValue((XSSFCell) row.getCell(6)));
-            model.setGender(getCellValue((XSSFCell) row.getCell(7)));
-            model.setPhone(getCellValue((XSSFCell) row.getCell(8)));
-            model.setGuaName(getCellValue((XSSFCell) row.getCell(9)));
-            model.setGuaPhone(getCellValue((XSSFCell) row.getCell(10)));
 
             models.add(model);
         }
@@ -99,16 +87,6 @@ public class UploadReader {
             model.setName(getCellValue((XSSFCell) row.getCell(1)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(2)));
             model.setNIC(getCellValue((XSSFCell) row.getCell(3)));
-            try {
-                String dobValue = getCellValue((XSSFCell) row.getCell(4));
-                Date DOB = dateFormat.parse(dobValue);
-                model.setDOB(String.valueOf(DOB));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            model.setAddress(getCellValue((XSSFCell) row.getCell(5)));
-            model.setGender(getCellValue((XSSFCell) row.getCell(6)));
-            model.setPhone(getCellValue((XSSFCell) row.getCell(7)));
 
             models.add(model);
         }

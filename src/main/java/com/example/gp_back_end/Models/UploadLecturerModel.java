@@ -10,11 +10,7 @@ public class UploadLecturerModel {
     private String lecturerId;
     private String Name;
     private String Email;
-    private String Phone;
-    private String Address;
-    private String Gender;
     private String NIC;
-    private String DOB;
 
     public String getId() {
         return id;
@@ -48,44 +44,12 @@ public class UploadLecturerModel {
         Email = email;
     }
 
-    public String getPhone() {
-        return Phone;
-    }
-
-    public void setPhone(String phone) {
-        Phone = phone;
-    }
-
-    public String getAddress() {
-        return Address;
-    }
-
-    public void setAddress(String address) {
-        Address = address;
-    }
-
-    public String getGender() {
-        return Gender;
-    }
-
-    public void setGender(String gender) {
-        Gender = gender;
-    }
-
     public String getNIC() {
         return NIC;
     }
 
     public void setNIC(String NIC) {
         this.NIC = NIC;
-    }
-
-    public String getDOB() {
-        return DOB;
-    }
-
-    public void setDOB(String DOB) {
-        this.DOB = DOB;
     }
 
     @Override
@@ -95,11 +59,7 @@ public class UploadLecturerModel {
                 ", lecturerId='" + lecturerId + '\'' +
                 ", Name='" + Name + '\'' +
                 ", Email='" + Email + '\'' +
-                ", Phone='" + Phone + '\'' +
-                ", Address='" + Address + '\'' +
-                ", Gender='" + Gender + '\'' +
                 ", NIC='" + NIC + '\'' +
-                ", DOB='" + DOB + '\'' +
                 '}';
     }
 }
