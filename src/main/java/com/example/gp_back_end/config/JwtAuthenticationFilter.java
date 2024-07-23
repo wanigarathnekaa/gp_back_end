@@ -1,5 +1,6 @@
 package com.example.gp_back_end.config;
 
+import com.example.gp_back_end.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

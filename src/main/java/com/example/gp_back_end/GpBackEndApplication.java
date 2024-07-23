@@ -1,6 +1,6 @@
 package com.example.gp_back_end;
 
-import com.example.gp_back_end.auth.AuthenticationService;
+import com.example.gp_back_end.services.AuthenticationService;
 import com.example.gp_back_end.auth.RegisterRequest;
 import com.example.gp_back_end.user.Role;
 import org.springframework.boot.CommandLineRunner;

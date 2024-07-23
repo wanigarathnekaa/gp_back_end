@@ -1,4 +1,4 @@
-package com.example.gp_back_end.config;
+package com.example.gp_back_end.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

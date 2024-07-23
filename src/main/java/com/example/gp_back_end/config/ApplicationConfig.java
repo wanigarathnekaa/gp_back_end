@@ -1,6 +1,6 @@
 package com.example.gp_back_end.config;
 
-import com.example.gp_back_end.repository.userRepository;
+import com.example.gp_back_end.repository.StudentLoginRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +17,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final userRepository repository;
+    private final StudentLoginRepository repository;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> repository.findByEmail(username)
+        return regNumber -> repository.findByRegNumber(regNumber)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
