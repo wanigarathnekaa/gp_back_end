@@ -20,7 +20,7 @@ public class LoginService {
 
     public Optional<UploadStudentModel> studentLogin(String regNumber, String NIC) {
         Optional<UploadStudentModel> studentOpt = studentLoginRepository.findByRegNumber(regNumber);
-        if (studentOpt.isPresent() && studentOpt.get().getNIC().equals(NIC)) {
+        if (studentOpt.isPresent() && studentOpt.get().getNic().equals(NIC)) {
 
             return studentOpt;
         }
@@ -29,7 +29,7 @@ public class LoginService {
 
     public Optional<UploadLecturerModel> lecturerLogin(String lecturerId, String NIC) {
         Optional<UploadLecturerModel> lecOpt = lecturerLoginRepository.findByLecturerId(lecturerId);
-        if (lecOpt.isPresent() && lecOpt.get().getNIC().equals(NIC)) {
+        if (lecOpt.isPresent() && lecOpt.get().getNic().equals(NIC)) {
 
             return lecOpt;
         }

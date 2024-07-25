@@ -60,7 +60,7 @@ public class UploadReader {
             model.setName(getCellValue((XSSFCell) row.getCell(1)));
             model.setIndexNumber(getCellValue((XSSFCell) row.getCell(2)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(3)));
-            model.setNIC(getCellValue((XSSFCell) row.getCell(4)));
+            model.setNic(getCellValue((XSSFCell) row.getCell(4)));
 
             models.add(model);
         }
@@ -84,7 +84,7 @@ public class UploadReader {
             model.setLecturerId(getCellValue((XSSFCell) row.getCell(0)));
             model.setName(getCellValue((XSSFCell) row.getCell(1)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(2)));
-            model.setNIC(getCellValue((XSSFCell) row.getCell(3)));
+            model.setNic(getCellValue((XSSFCell) row.getCell(3)));
 
             models.add(model);
         }

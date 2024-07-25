@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 public class RegisterRequest {
     private String lecturerId;
     private String regNumber;
-    private String Name;
+    private String name;
     private String indexNumber;
-    private String Email;
-    private String NIC;
+    private String email;
+    private String nic;
     private Role role;
 }

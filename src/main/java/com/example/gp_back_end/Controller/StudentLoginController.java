@@ -22,6 +22,8 @@ public class StudentLoginController {
     @Autowired
     private LoginService loginService;
 
+    private AuthenticationController authenticationController;
+
 //    @ApiIgnore
     @RequestMapping(value = "/redirect")
     public void redirect(HttpServletResponse response) throws IOException {
