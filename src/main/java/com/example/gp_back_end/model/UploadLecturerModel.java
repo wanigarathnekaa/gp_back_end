@@ -20,9 +20,9 @@ public class UploadLecturerModel implements UserDetails {
     @Id
     private String id;
     private String lecturerId;
-    private String Name;
-    private String Email;
-    private String NIC;
+    private String name;
+    private String email;
+    private String nic;
     private Role role;
 
     @Override
@@ -32,7 +32,7 @@ public class UploadLecturerModel implements UserDetails {
 
     @Override
     public String getPassword() {
-        return NIC;
+        return nic;
     }
 
     @Override
@@ -66,9 +66,9 @@ public class UploadLecturerModel implements UserDetails {
         return "UploadLecturerModel{" +
                 "id='" + id + '\'' +
                 ", lecturerId='" + lecturerId + '\'' +
-                ", Name='" + Name + '\'' +
-                ", Email='" + Email + '\'' +
-                ", NIC='" + NIC + '\'' +
+                ", Name='" + name + '\'' +
+                ", Email='" + email + '\'' +
+                ", NIC='" + nic + '\'' +
                 ", role=" + role +
                 '}';
     }

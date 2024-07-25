@@ -20,10 +20,10 @@ public class UploadStudentModel implements UserDetails {
     @Id
     private String id;
     private String regNumber;
-    private String Name;
+    private String name;
     private String indexNumber;
-    private String Email;
-    private String NIC;
+    private String email;
+    private String nic;
     private Role role;
 
     @Override
@@ -33,7 +33,7 @@ public class UploadStudentModel implements UserDetails {
 
     @Override
     public String getPassword() {
-        return NIC;
+        return nic;
     }
 
     @Override
@@ -67,10 +67,10 @@ public class UploadStudentModel implements UserDetails {
         return "UploadModel{" +
                 "id='" + id + '\'' +
                 ", regNumber='" + regNumber + '\'' +
-                ", Name='" + Name + '\'' +
+                ", Name='" + name + '\'' +
                 ", indexNumber='" + indexNumber + '\'' +
-                ", Email='" + Email + '\'' +
-                ", NIC='" + NIC + '\'' +
+                ", Email='" + email + '\'' +
+                ", NIC='" + nic + '\'' +
                 ", role=" + role +
                 '}';
     }

@@ -2,6 +2,7 @@ package com.example.gp_back_end.Controller;
 
 import com.example.gp_back_end.model.UploadLecturerModel;
 import com.example.gp_back_end.model.UploadStudentModel;
+import com.example.gp_back_end.services.AuthenticationService;
 import com.example.gp_back_end.services.LoginService;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,8 @@ public class LecturerLoginController {
 
     @Autowired
     private LoginService loginService;
+
+    private AuthenticationController authenticationController;
 
 //    @ApiIgnore
     @RequestMapping(value = "/redirect")

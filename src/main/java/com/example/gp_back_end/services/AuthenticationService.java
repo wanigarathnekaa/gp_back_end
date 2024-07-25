@@ -30,10 +30,10 @@ public class AuthenticationService {
     public AuthenticationResponse singleStudentRegister(RegisterRequest request) {
         var user = UploadStudentModel.builder()
                 .regNumber(request.getRegNumber())
-                .Name(request.getName())
+                .name(request.getName())
                 .indexNumber(request.getIndexNumber())
-                .Email(request.getEmail())
-                .NIC(request.getNIC())
+                .email(request.getEmail())
+                .nic(request.getNic())
                 .role(Role.STUDENT)
                 .build();
         studentRepository.save(user);
@@ -46,9 +46,9 @@ public class AuthenticationService {
     public AuthenticationResponse singleLecturerRegister(RegisterRequest request) {
         var lecturer = UploadLecturerModel.builder()
                 .lecturerId(request.getLecturerId())
-                .Name(request.getName())
-                .Email(request.getEmail())
-                .NIC(request.getNIC())
+                .name(request.getName())
+                .email(request.getEmail())
+                .nic(request.getNic())
                 .role(Role.LECTURER)
                 .build();
         lecturerRepository.save(lecturer);
@@ -59,12 +59,19 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticateStudent(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getRegNumber(),
-                        request.getNIC()
-                )
-        );
+        System.out.println(request);
+
+        try {
+            var x=authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getRegNumber(),
+                            request.getNIC()
+                    )
+            );
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         var user = studentLoginRepository.findByRegNumber(request.getRegNumber())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
