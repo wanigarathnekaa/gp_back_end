@@ -18,6 +18,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/forms")
+@CrossOrigin(origins = "*")
 public class FormController {
 
     private final FormService formService;
@@ -29,6 +30,8 @@ public class FormController {
 
     @PostMapping("/submit")
     public ResponseEntity<?> submitForm(@RequestBody FormSubmissionRequest request) {
+        System.out.println("request" + request.getFormURL());
+        System.out.println("request" + request.getContent());
         try {
             FormSubmissionModel savedSubmission = formService.saveFormSubmission(request);
             return ResponseEntity.ok(savedSubmission);
@@ -63,7 +66,8 @@ public class FormController {
     }
 
     @GetMapping("/{id}/submissions")
-    public FormModel getFormWithSubmissions(@PathVariable String id) {
+    public List<FormSubmissionModel> getFormWithSubmissions(@PathVariable String id) {
+        System.out.println(id);
         return formService.getFormWithSubmissions(id);
     }
 
@@ -76,6 +80,11 @@ public class FormController {
     @GetMapping("/all")
     public List<FormModel> getAllForms() {
         return formService.getAllForms();
+    }
+
+    @GetMapping("/view/{formUrl}")
+    public FormModel getFormContentByUrl(@PathVariable String formUrl) {
+        return formService.getFormContentByUrl(formUrl);
     }
 
 }

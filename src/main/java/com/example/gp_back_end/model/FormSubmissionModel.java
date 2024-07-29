@@ -1,6 +1,7 @@
 package com.example.gp_back_end.model;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,7 +18,8 @@ public class FormSubmissionModel {
     @Id
     private String id;
     private String formId;
-    private final LocalDateTime createdAt = LocalDateTime.now();
+    @CreatedDate
+    private  LocalDateTime createdAt ;
     private String content;
 
     @DBRef

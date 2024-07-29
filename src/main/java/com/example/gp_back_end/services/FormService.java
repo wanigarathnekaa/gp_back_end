@@ -88,12 +88,14 @@ public class FormService {
         return formOptional.orElseThrow(() -> new RuntimeException("Form not found"));
     }
 
-    public FormModel getFormWithSubmissions(String id) {
+    public List<FormSubmissionModel> getFormWithSubmissions(String id) {
         FormModel form = getFormById(id);
+        System.out.println(form.getId());
         List<FormSubmissionModel> submissions = formSubmissionRepository.findByFormId(id);
+        System.out.println(submissions);
         form.setFormSubmissions(submissions);
         form.setSubmissions(submissions.size()); // Set the count of submissions
-        return form;
+        return submissions;
     }
 
     public void addFormSubmission(String formId, FormSubmissionModel submission) {
@@ -105,7 +107,7 @@ public class FormService {
 
     public String createForm(FormRequest formRequest) {
         FormModel form = FormModel.builder()
-                .userId(formRequest.getUserId())
+                .userId("REG123456")
                 .name(formRequest.getName())
                 .description(formRequest.getDescription())
                 .createdAt(LocalDateTime.now())
@@ -121,11 +123,24 @@ public class FormService {
 
     private String generateShareURL() {
         // Logic to generate a share URL
-        return "http://localhost/share/" + System.currentTimeMillis();
+        return String.valueOf(System.currentTimeMillis());
     }
 
     public List<FormModel> getAllForms() {
         return formRepository.findAll();
+    }
+
+    public FormModel getFormContentByUrl(String formUrl) {
+        Optional<FormModel> optionalForm = formRepository.findByShareURL(formUrl);
+
+        if (optionalForm.isPresent()) {
+            FormModel form = optionalForm.get();
+            form.setVisits(form.getVisits() + 1);
+            formRepository.save(form);
+            return form;
+        } else {
+            throw new RuntimeException("Form not found with URL: " + formUrl);
+        }
     }
 }
 

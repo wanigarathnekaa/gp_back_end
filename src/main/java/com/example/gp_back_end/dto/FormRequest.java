@@ -5,15 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FormRequest {
-    @NotBlank(message = "User ID is required")
-    private String userId;
-
     @NotBlank(message = "Name is required")
     private String name;
 
