@@ -4,6 +4,7 @@ package com.example.gp_back_end.Controller;
 import com.example.gp_back_end.model.UploadLecturerModel;
 import com.example.gp_back_end.model.UploadStudentModel;
 import com.example.gp_back_end.services.UploadService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,9 @@ import java.util.List;
 
 
 @RestController
+@RequiredArgsConstructor
+@RequestMapping("/registration")
+@CrossOrigin(origins = "*")
 public class UploadController {
 
     @Autowired

@@ -19,7 +19,7 @@ public class FormSubmissionModel {
     private String id;
     private String formId;
     @CreatedDate
-    private  LocalDateTime createdAt ;
+    private  LocalDateTime createdAt = LocalDateTime.now();
     private String content;
 
     @DBRef

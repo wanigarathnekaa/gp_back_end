@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,11 @@ public class FormService {
         }
 
         FormModel form = formOptional.get();
+        System.out.println(form);
+        Integer count = form.getSubmissions();
+        System.out.println(count);
+        form.setSubmissions(count + 1);
+        formRepository.save(form);
 
         FormSubmissionModel formSubmission = FormSubmissionModel.builder()
                 .formId(form.getId())
