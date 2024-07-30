@@ -2,6 +2,7 @@ package com.example.gp_back_end.function;
 
 import com.example.gp_back_end.model.UploadLecturerModel;
 import com.example.gp_back_end.model.UploadStudentModel;
+import com.example.gp_back_end.user.Role;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -43,6 +44,16 @@ public class UploadReader {
         }
     }
 
+    private Role getRoleFromCellValue(String cellValue) {
+        try {
+            return Role.valueOf(cellValue.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            // Handle the case where the role is not valid
+            // For example, you could return a default role or throw an exception
+            return null; // or throw new RuntimeException("Invalid role: " + cellValue);
+        }
+    }
+
     public List<UploadStudentModel> readStudentExcel(MultipartFile file) throws IOException {
         List<UploadStudentModel> models = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -61,6 +72,7 @@ public class UploadReader {
             model.setIndexNumber(getCellValue((XSSFCell) row.getCell(2)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(3)));
             model.setNic(getCellValue((XSSFCell) row.getCell(4)));
+            model.setRole(getRoleFromCellValue(getCellValue((XSSFCell) row.getCell(5)))); // Assuming the role is in the 6th column
 
             models.add(model);
         }

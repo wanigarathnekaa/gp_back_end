@@ -5,10 +5,7 @@ import com.example.gp_back_end.services.LoginService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 //import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +13,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/student") // Add this to avoid conflicts
+@RequestMapping("/api/v1/auth")// Add this to avoid conflicts
+@CrossOrigin(origins = "*")
 public class StudentLoginController {
 
     @Autowired
