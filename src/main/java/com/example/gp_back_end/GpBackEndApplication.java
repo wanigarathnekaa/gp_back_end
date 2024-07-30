@@ -12,7 +12,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @SpringBootApplication
-@RestController
+@EnableSwagger2
 public class GpBackEndApplication {
 
     public static void main(String[] args) {
@@ -31,5 +31,4 @@ public class GpBackEndApplication {
         final ApiInfoBuilder builder = new ApiInfoBuilder();
         return builder.build();
     }
-
 }
