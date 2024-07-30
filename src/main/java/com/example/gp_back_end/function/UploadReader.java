@@ -2,6 +2,7 @@ package com.example.gp_back_end.function;
 
 import com.example.gp_back_end.model.UploadLecturerModel;
 import com.example.gp_back_end.model.UploadStudentModel;
+import com.example.gp_back_end.repository.StudentLoginRepository;
 import com.example.gp_back_end.user.Role;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -9,16 +10,19 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class UploadReader {
+
+    @Autowired
+    private StudentLoginRepository studentLoginRepository;
 
     private String getCellValue(XSSFCell cell) {
         if (cell == null) {
@@ -60,6 +64,30 @@ public class UploadReader {
         Sheet sheet = workbook.getSheetAt(0);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Set<String> regNumberSet = new HashSet<>();
+        int flag = 0;
+
+        for (Row row : sheet) {
+            if (row.getRowNum() == 0) {
+                continue; // Skip the header row
+            }
+            String regNumber = getCellValue((XSSFCell) row.getCell(0));
+            Optional<UploadStudentModel> existingStudent = studentLoginRepository.findByRegNumber(regNumber);
+            if (regNumberSet.contains(regNumber)) {
+                // Duplicate in the file, handle accordingly
+                System.out.println("Duplicate registration number in file: " + regNumber);
+                flag = 1;
+            }else if (existingStudent.isPresent()) {
+                // Student already exists, handle accordingly
+                System.out.println("Student already exists in database: " + regNumber);
+                flag = 1;
+            }
+            regNumberSet.add(regNumber);
+        }
+
+        if(flag == 1) {
+           return models;
+        }
 
         for (Row row : sheet) {
             if (row.getRowNum() == 0) {
