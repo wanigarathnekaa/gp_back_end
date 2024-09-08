@@ -73,6 +73,7 @@ public class FormController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createForm(@RequestBody @Valid FormRequest formRequest) {
+        System.out.println(formRequest);
         String formId = formService.createForm(formRequest);
         return ResponseEntity.ok(formId);
     }
@@ -84,7 +85,13 @@ public class FormController {
 
     @GetMapping("/view/{formUrl}")
     public FormModel getFormContentByUrl(@PathVariable String formUrl) {
+        System.out.println(formUrl);
         return formService.getFormContentByUrl(formUrl);
+    }
+
+    @GetMapping("/{id}/template_content")
+    public String getFormTemplateContent(@PathVariable String id) {
+        return formService.getFormTemplateContent(id);
     }
 
 }

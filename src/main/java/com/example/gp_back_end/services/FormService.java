@@ -116,6 +116,7 @@ public class FormService {
                 .userId("REG123456")
                 .name(formRequest.getName())
                 .description(formRequest.getDescription())
+                .template(formRequest.getTemplate())
                 .createdAt(LocalDateTime.now())
                 .published(false)
                 .visits(0)
@@ -147,6 +148,14 @@ public class FormService {
         } else {
             throw new RuntimeException("Form not found with URL: " + formUrl);
         }
+    }
+
+    public String getFormTemplateContent(String id) {
+        Optional<FormModel> optionalForm = formRepository.findById(id);
+        if (optionalForm.isPresent()) {
+            return optionalForm.get().getContent();
+        }
+        throw new RuntimeException("Form not found with ID: " + id);
     }
 }
 
