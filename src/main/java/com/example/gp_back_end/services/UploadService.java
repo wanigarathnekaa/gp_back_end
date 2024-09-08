@@ -23,14 +23,9 @@ public class UploadService {
     @Autowired
     private UploadReader uploadReader;
 
-    public String importData(MultipartFile file) throws IOException {
+    public void importData(MultipartFile file) throws IOException {
         List<UploadStudentModel> models = uploadReader.readStudentExcel(file);
-        if(!models.isEmpty()){
-            studentRepository.saveAll(models);
-            return "success";
-        }else {
-            return "error";
-        }
+        studentRepository.saveAll(models);
     }
 
     public List<UploadStudentModel> getAllData() {
