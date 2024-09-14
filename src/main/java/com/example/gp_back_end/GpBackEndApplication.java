@@ -19,6 +19,7 @@ public class GpBackEndApplication {
         SpringApplication.run(GpBackEndApplication.class, args);
     }
 
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
@@ -31,5 +32,7 @@ public class GpBackEndApplication {
         final ApiInfoBuilder builder = new ApiInfoBuilder();
         return builder.build();
     }
+
+
 
 }
