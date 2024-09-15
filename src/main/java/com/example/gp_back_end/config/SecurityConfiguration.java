@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
                         .requestMatchers("/api/v1/student/**").hasAnyRole(STUDENT.name(), ADMIN.name())
                         .requestMatchers("/api/v1/lecturer/**").hasAnyRole(LECTURER.name(), ADMIN.name())
+                        .requestMatchers("/send-email").permitAll()
 
                         .anyRequest().authenticated()
                 )
