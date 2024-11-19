@@ -100,6 +100,7 @@ public class UploadReader {
             model.setIndexNumber(getCellValue((XSSFCell) row.getCell(2)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(3)));
             model.setNic(getCellValue((XSSFCell) row.getCell(4)));
+            model.setPassword(getCellValue((XSSFCell) row.getCell(4)));
             model.setRole(getRoleFromCellValue(getCellValue((XSSFCell) row.getCell(5)))); // Assuming the role is in the 6th column
 
             models.add(model);

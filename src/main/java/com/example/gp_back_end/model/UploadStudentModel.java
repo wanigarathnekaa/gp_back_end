@@ -22,6 +22,7 @@ public class UploadStudentModel implements UserDetails {
     private String regNumber;
     private String name;
     private String indexNumber;
+    private String password;
     private String email;
     private String nic;
     private Role role;
@@ -33,7 +34,7 @@ public class UploadStudentModel implements UserDetails {
 
     @Override
     public String getPassword() {
-        return nic;
+        return password;
     }
 
     @Override
