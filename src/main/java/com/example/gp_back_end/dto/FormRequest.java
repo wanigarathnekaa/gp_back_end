@@ -19,4 +19,6 @@ public class FormRequest {
     private String description;
 
     private Boolean template;
+
+    private String content;
 }

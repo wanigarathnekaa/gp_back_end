@@ -111,18 +111,34 @@ public class FormService {
         formRepository.save(form);
     }
 
-    public String createForm(FormRequest formRequest) {
-        FormModel form = FormModel.builder()
-                .userId("REG123456")
-                .name(formRequest.getName())
-                .description(formRequest.getDescription())
-                .template(formRequest.getTemplate())
-                .createdAt(LocalDateTime.now())
-                .published(false)
-                .visits(0)
-                .submissions(0)
-                .shareURL(generateShareURL())
-                .build();
+    public String createForm(FormRequest formRequest, int template) {
+        FormModel form;
+        if (template == 1) {
+            form = FormModel.builder()
+                    .userId("REG123456")
+                    .name(formRequest.getName())
+                    .description(formRequest.getDescription())
+                    .content(formRequest.getContent())
+                    .template(formRequest.getTemplate())
+                    .createdAt(LocalDateTime.now())
+                    .published(false)
+                    .visits(0)
+                    .submissions(0)
+                    .shareURL(generateShareURL())
+                    .build();
+        }else{
+            form = FormModel.builder()
+                    .userId("REG123456")
+                    .name(formRequest.getName())
+                    .description(formRequest.getDescription())
+                    .template(formRequest.getTemplate())
+                    .createdAt(LocalDateTime.now())
+                    .published(false)
+                    .visits(0)
+                    .submissions(0)
+                    .shareURL(generateShareURL())
+                    .build();
+        }
 
         FormModel savedForm = formRepository.save(form);
         return savedForm.getId();

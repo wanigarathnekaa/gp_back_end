@@ -13,3 +13,4 @@ public class AuthenticationRequest {
     private String regNumber;
     private String NIC;
 }
+ 
