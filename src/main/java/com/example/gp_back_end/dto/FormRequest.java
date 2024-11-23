@@ -17,4 +17,8 @@ public class FormRequest {
 
     @NotBlank(message = "Description is required")
     private String description;
+
+    private Boolean template;
+
+    private String content;
 }
