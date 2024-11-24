@@ -38,12 +38,12 @@ public class StudentProfileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UploadStudentModel> getProfileById(@PathVariable String id) {
+    public ResponseEntity<?> getProfileById(@PathVariable String id) {
         try {
             UploadStudentModel profile = studentProfileService.getProfileById(id);
             return ResponseEntity.ok(profile);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(404).body("Profile not found for id: " + id);
         }
     }
 }
