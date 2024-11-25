@@ -3,15 +3,17 @@ package com.example.gp_back_end.services;
 import com.example.gp_back_end.dto.FormRequest;
 import com.example.gp_back_end.dto.FormStats;
 import com.example.gp_back_end.dto.FormSubmissionRequest;
+import com.example.gp_back_end.function.UploadReader;
 import com.example.gp_back_end.model.FormModel;
 import com.example.gp_back_end.model.FormSubmissionModel;
 import com.example.gp_back_end.repository.FormRepository;
 import com.example.gp_back_end.repository.FormSubmissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,7 @@ public class FormService {
 
     private final FormRepository formRepository;
     private final FormSubmissionRepository formSubmissionRepository;
+    private final UploadReader uploadReader;
 
     public FormStats getFormStats() {
         // Fetch all forms for the given user
@@ -153,6 +156,10 @@ public class FormService {
         return formRepository.findAll();
     }
 
+    public List<FormModel> getAllTemplates() {
+        return formRepository.findByTemplate(true);
+    }
+
     public FormModel getFormContentByUrl(String formUrl) {
         Optional<FormModel> optionalForm = formRepository.findByShareURL(formUrl);
 
@@ -172,6 +179,16 @@ public class FormService {
             return optionalForm.get().getContent();
         }
         throw new RuntimeException("Form not found with ID: " + id);
+    }
+
+    public String importData(MultipartFile file, String content) throws IOException {
+        List<FormModel> models = uploadReader.formBulkUpload(file, content);
+        if(!models.isEmpty()){
+            formRepository.saveAll(models);
+            return "success";
+        }else {
+            return "error";
+        }
     }
 }
 

@@ -11,7 +11,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +92,11 @@ public class FormController {
         return formService.getAllForms();
     }
 
+    @GetMapping("/templates")
+    public List<FormModel> getAllTemplates() {
+        return formService.getAllTemplates();
+    }
+
     @GetMapping("/view/{formUrl}")
     public FormModel getFormContentByUrl(@PathVariable String formUrl) {
         System.out.println(formUrl);
@@ -99,6 +106,21 @@ public class FormController {
     @GetMapping("/{id}/template_content")
     public String getFormTemplateContent(@PathVariable String id) {
         return formService.getFormTemplateContent(id);
+    }
+
+    @PostMapping("/bulkForms")
+    public String importBulkForms(@RequestParam("file") MultipartFile file, @RequestParam("content") String content) {
+        try {
+            String response = formService.importData(file, content);
+            if(response.equals("success")){
+                return "Data imported successfully!";
+            }else if(response.equals("error")){
+                return "Already exist users are found";
+            }
+            return "Data import fail!";
+        } catch (IOException e) {
+            return "Failed to import data: " + e.getMessage();
+        }
     }
 
 }
