@@ -1,5 +1,6 @@
 package com.example.gp_back_end.function;
 
+import com.example.gp_back_end.model.FormModel;
 import com.example.gp_back_end.model.CourseModel;
 import com.example.gp_back_end.model.UploadLecturerModel;
 import com.example.gp_back_end.model.UploadStudentModel;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -103,6 +105,8 @@ public class UploadReader {
             model.setNic(getCellValue((XSSFCell) row.getCell(4)));
             model.setPassword(getCellValue((XSSFCell) row.getCell(4)));
             model.setRole(getRoleFromCellValue(getCellValue((XSSFCell) row.getCell(5)))); // Assuming the role is in the 6th column
+            model.setSemester(Integer.parseInt(getCellValue((XSSFCell) row.getCell(6))));
+            model.setSemester(Integer.parseInt(getCellValue((XSSFCell) row.getCell(7))));
 
             models.add(model);
         }
@@ -134,6 +138,43 @@ public class UploadReader {
         return models;
     }
 
+
+    private String generateShareURL() {
+        // Logic to generate a share URL
+        return String.valueOf(System.currentTimeMillis());
+    }
+
+    public List<FormModel> formBulkUpload(MultipartFile file, String content) throws IOException {
+        List<FormModel> models = new ArrayList<>();
+        Workbook workbook = new XSSFWorkbook(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (Row row : sheet) {
+            if (row.getRowNum() == 0) {
+                continue;
+            }
+
+            FormModel model = new FormModel();
+            model.setUserId(("REG123456"));
+            model.setName(getCellValue((XSSFCell) row.getCell(0)));
+            model.setDescription(getCellValue((XSSFCell) row.getCell(1)));
+            model.setCreatedAt(LocalDateTime.now());
+            model.setTemplate(false);
+            model.setContent(content);
+            model.setPublished(false);
+            model.setVisits(0);
+            model.setSubmissions(0);
+            model.setShareURL(generateShareURL());
+            model.setVisits(0);
+
+            models.add(model);
+        }
+        workbook.close();
+        return models;
+    }
+  
     public List<CourseModel> readCourseExcel(MultipartFile file) throws IOException {
         List<CourseModel> models = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
