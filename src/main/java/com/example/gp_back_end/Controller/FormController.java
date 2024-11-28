@@ -30,6 +30,11 @@ public class FormController {
         return formService.getFormStats();
     }
 
+    @GetMapping("/stats/LineChart")
+    public List<Map<String, Object>> getFormStatsForLineChart() {
+        return formService.getFormStatsForLineChart();
+    }
+
     @PostMapping("/submit")
     public ResponseEntity<?> submitForm(@RequestBody FormSubmissionRequest request) {
         System.out.println("request" + request.getFormURL());

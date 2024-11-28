@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +46,39 @@ public class FormService {
 
         // Create and return the stats object
         return new FormStats(totalVisits, totalSubmissions, submissionRate, bounceRate);
+    }
+
+    public List<Map<String, Object>> getFormStatsForLineChart() {
+        // Fetch all forms
+        List<FormModel> forms = formRepository.findAll();
+
+        // Group visits and submissions by date
+        Map<LocalDate, int[]> statsByDate = new HashMap<>();
+
+        for (FormModel form : forms) {
+            if (form.getCreatedAt() != null) {
+                LocalDate date = form.getCreatedAt().toLocalDate();
+
+                // Initialize or update the stats for this date
+                statsByDate.putIfAbsent(date, new int[]{0, 0});
+                statsByDate.get(date)[0] += (form.getVisits() != null) ? form.getVisits() : 0;
+                statsByDate.get(date)[1] += (form.getSubmissions() != null) ? form.getSubmissions() : 0;
+            }
+        }
+
+        // Convert to a list of maps (or any preferred data structure)
+        return statsByDate.entrySet().stream()
+                .map(entry -> {
+                    LocalDate date = entry.getKey();
+                    int[] stats = entry.getValue();
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("date", date.toString());
+                    map.put("visits", stats[0]);
+                    map.put("submissions", stats[1]);
+                    return map;
+                })
+                .sorted(Comparator.comparing(map -> (String) map.get("date"))) // Ensure data is sorted by date
+                .collect(Collectors.toList());
     }
 
     public FormSubmissionModel saveFormSubmission(FormSubmissionRequest request) throws Exception {
