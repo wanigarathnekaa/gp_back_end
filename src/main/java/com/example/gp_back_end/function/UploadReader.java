@@ -1,6 +1,7 @@
 package com.example.gp_back_end.function;
 
 import com.example.gp_back_end.model.FormModel;
+import com.example.gp_back_end.model.CourseModel;
 import com.example.gp_back_end.model.UploadLecturerModel;
 import com.example.gp_back_end.model.UploadStudentModel;
 import com.example.gp_back_end.repository.StudentLoginRepository;
@@ -102,6 +103,7 @@ public class UploadReader {
             model.setIndexNumber(getCellValue((XSSFCell) row.getCell(2)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(3)));
             model.setNic(getCellValue((XSSFCell) row.getCell(4)));
+            model.setPassword(getCellValue((XSSFCell) row.getCell(4)));
             model.setRole(getRoleFromCellValue(getCellValue((XSSFCell) row.getCell(5)))); // Assuming the role is in the 6th column
             model.setSemester(Integer.parseInt(getCellValue((XSSFCell) row.getCell(6))));
             model.setSemester(Integer.parseInt(getCellValue((XSSFCell) row.getCell(7))));
@@ -136,6 +138,7 @@ public class UploadReader {
         return models;
     }
 
+
     private String generateShareURL() {
         // Logic to generate a share URL
         return String.valueOf(System.currentTimeMillis());
@@ -165,6 +168,31 @@ public class UploadReader {
             model.setSubmissions(0);
             model.setShareURL(generateShareURL());
             model.setVisits(0);
+
+            models.add(model);
+        }
+        workbook.close();
+        return models;
+    }
+  
+    public List<CourseModel> readCourseExcel(MultipartFile file) throws IOException {
+        List<CourseModel> models = new ArrayList<>();
+        Workbook workbook = new XSSFWorkbook(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (Row row : sheet) {
+            if (row.getRowNum() == 0) {
+                continue;
+            }
+
+            CourseModel model = new CourseModel();
+            model.setCourseCode(getCellValue((XSSFCell) row.getCell(0)));
+            model.setCourseName(getCellValue((XSSFCell) row.getCell(1)));
+            model.setCredit(getCellValue((XSSFCell) row.getCell(2)));
+            model.setYear(getCellValue((XSSFCell) row.getCell(3)));
+            model.setSemester(getCellValue((XSSFCell) row.getCell(4)));
 
             models.add(model);
         }
