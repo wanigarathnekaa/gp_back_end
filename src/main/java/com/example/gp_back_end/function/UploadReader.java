@@ -103,6 +103,8 @@ public class UploadReader {
             model.setEmail(getCellValue((XSSFCell) row.getCell(3)));
             model.setNic(getCellValue((XSSFCell) row.getCell(4)));
             model.setRole(getRoleFromCellValue(getCellValue((XSSFCell) row.getCell(5)))); // Assuming the role is in the 6th column
+            model.setSemester(Integer.parseInt(getCellValue((XSSFCell) row.getCell(6))));
+            model.setSemester(Integer.parseInt(getCellValue((XSSFCell) row.getCell(7))));
 
             models.add(model);
         }

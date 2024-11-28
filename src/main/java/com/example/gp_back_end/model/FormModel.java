@@ -21,6 +21,7 @@ public class FormModel {
     private LocalDateTime createdAt;
     private Boolean template;
     private Boolean published;
+    private String course;
     private String name;
     private String description;
     private String content;

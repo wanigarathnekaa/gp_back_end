@@ -169,6 +169,7 @@ public class FormService {
                     .name(formRequest.getName())
                     .description(formRequest.getDescription())
                     .template(formRequest.getTemplate())
+                    .course(formRequest.getCourse())
                     .createdAt(LocalDateTime.now())
                     .published(false)
                     .visits(0)
