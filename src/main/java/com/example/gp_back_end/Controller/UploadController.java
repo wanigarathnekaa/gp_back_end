@@ -4,13 +4,13 @@ package com.example.gp_back_end.Controller;
 import com.example.gp_back_end.model.UploadLecturerModel;
 import com.example.gp_back_end.model.UploadStudentModel;
 import com.example.gp_back_end.services.UploadService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 //import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,13 +35,8 @@ public class UploadController {
     @PostMapping("/import/students")
     public String importStudentData(@RequestParam("file") MultipartFile file) {
         try {
-            String response = service.importData(file);
-            if(response.equals("success")){
-                return "Data imported successfully!";
-            }else if(response.equals("error")){
-                return "Already exist users are found";
-            }
-            return "Data import fail!";
+            service.importData(file);
+            return "Data imported successfully!";
         } catch (IOException e) {
             return "Failed to import data: " + e.getMessage();
         }
