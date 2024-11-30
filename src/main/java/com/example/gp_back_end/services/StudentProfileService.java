@@ -12,6 +12,7 @@ public class StudentProfileService {
     private StudentProfileRepository studentProfileRepository;
 
     public UploadStudentModel getProfileById(String id) {
-        return studentProfileRepository.findById(id).orElse(null);
+        return studentProfileRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Profile not found"));
     }
 }

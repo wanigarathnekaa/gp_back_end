@@ -21,4 +21,5 @@ public class FormRequest {
     private Boolean template;
 
     private String content;
+    private String course;
 }

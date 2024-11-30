@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,18 +23,21 @@ public class UploadStudentModel implements UserDetails {
     private String regNumber;
     private String name;
     private String indexNumber;
+    private String password;
     private String email;
     private String nic;
     private Role role;
+    private int semester;
+    private int year;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.getAuthorities();
+        return role != null ? role.getAuthorities() : List.of();
     }
 
     @Override
     public String getPassword() {
-        return nic;
+        return password;
     }
 
     @Override

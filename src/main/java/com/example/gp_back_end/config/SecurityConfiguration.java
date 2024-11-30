@@ -30,12 +30,16 @@ public class SecurityConfiguration {
                         .requestMatchers("/students/**").permitAll()
                         .requestMatchers("/api/cloaks/**").permitAll()
                         .requestMatchers("/registration/**").permitAll()
-                        .requestMatchers("/api/v1/student/{id}/**").permitAll()
+                        .requestMatchers("/course/import").permitAll()
+//                        .requestMatchers("/api/v1/student/{id}/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
-                        .requestMatchers("/api/v1/student/**").hasAnyRole(STUDENT.name(), ADMIN.name())
+                        .requestMatchers("/api/v1/student/**").permitAll()
                         .requestMatchers("/api/v1/lecturer/**").hasAnyRole(LECTURER.name(), ADMIN.name())
+                        .requestMatchers("/send-email").permitAll()
+                        .requestMatchers("/notifications").permitAll()
 
-                        .anyRequest().authenticated()
+
+//                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
