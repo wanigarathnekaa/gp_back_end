@@ -34,4 +34,8 @@ public class UserRoleController {
         }
     }
 
+    @GetMapping("/getAllRoles")
+    public List<UserRoleModel> getAllRoles() {
+        return userRoleService.getAllRoles();
+    }
 }

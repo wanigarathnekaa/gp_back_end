@@ -18,13 +18,15 @@ public class UserRoleService {
     }
 
     public UserRoleModel addRole(String roleName, String roleDescription, List<String> selectedPrivileges) {
-        // Create a new UserRoleModel instance
         UserRoleModel newRole = new UserRoleModel();
         newRole.setRoleName(roleName);
         newRole.setRoleDescription(roleDescription);
         newRole.setSelectedPrivileges(selectedPrivileges);
 
-        // Save the new role to the database
         return userRoleRepository.save(newRole);
+    }
+
+    public List<UserRoleModel> getAllRoles() {
+        return userRoleRepository.findAll();
     }
 }
