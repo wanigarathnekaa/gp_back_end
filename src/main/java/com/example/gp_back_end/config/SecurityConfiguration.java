@@ -25,19 +25,16 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll()  // Adjust the request matchers as needed
+                        .requestMatchers("/api/v1/userRole/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()// Adjust the request matchers as needed
                         .requestMatchers("/forms/**").permitAll()
                         .requestMatchers("/registration/**").permitAll()
                         .requestMatchers("/course/import").permitAll()
-//                        .requestMatchers("/api/v1/student/{id}/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
                         .requestMatchers("/api/v1/student/**").permitAll()
                         .requestMatchers("/api/v1/lecturer/**").hasAnyRole(LECTURER.name(), ADMIN.name())
                         .requestMatchers("/send-email").permitAll()
                         .requestMatchers("/notifications").permitAll()
-
-
-//                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
