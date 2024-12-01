@@ -58,8 +58,8 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticateStudent(AuthenticationRequest request) {
-        System.out.println("hb "+request);
+    public AuthenticationResponse authenticateUser(AuthenticationRequest request) {
+        System.out.println(request);
 
         try {
             var x=authenticationManager.authenticate(
@@ -77,6 +77,7 @@ public class AuthenticationService {
             var jwtToken = jwtService.generateToken(user.get());
             return AuthenticationResponse.builder()
                     .accessToken(jwtToken)
+                    .message("Welcome " + user.get().getName())
                     .build();
         }else{
             return AuthenticationResponse.builder()
