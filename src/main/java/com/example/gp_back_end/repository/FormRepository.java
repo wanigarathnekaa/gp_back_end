@@ -12,4 +12,5 @@ public interface FormRepository extends MongoRepository<FormModel, String> {
     List<FormModel> findByUserId(String userId);
     Optional<FormModel> findByShareURL(String shareURL);
     List<FormModel> findByTemplate(boolean template);
+    FormModel findFormIdByCourse(String courseCode);
 }

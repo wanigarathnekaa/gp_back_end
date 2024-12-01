@@ -5,12 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FormSubmissionRequest {
+public class CourseRequest {
     private String regNumber;
-    private String formURL;
-    private String content;
+    private String year;
+    private String semester;
+    private List<String> course;
 }

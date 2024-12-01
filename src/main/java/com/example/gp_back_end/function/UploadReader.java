@@ -128,10 +128,11 @@ public class UploadReader {
             }
 
             UploadLecturerModel model = new UploadLecturerModel();
-            model.setLecturerId(getCellValue((XSSFCell) row.getCell(0)));
+            model.setRegNumber(getCellValue((XSSFCell) row.getCell(0)));
             model.setName(getCellValue((XSSFCell) row.getCell(1)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(2)));
             model.setNic(getCellValue((XSSFCell) row.getCell(3)));
+            model.setPassword(getCellValue((XSSFCell) row.getCell(3)));
             model.setRole(Role.LECTURER);
             model.setRoleName("Lecturer");
             String coursesCell = getCellValue((XSSFCell) row.getCell(4));
@@ -170,6 +171,7 @@ public class UploadReader {
             model.setUserId(("REG123456"));
             model.setName(getCellValue((XSSFCell) row.getCell(0)));
             model.setDescription(getCellValue((XSSFCell) row.getCell(1)));
+            model.setCourse(getCellValue((XSSFCell) row.getCell(2)));
             model.setCreatedAt(LocalDateTime.now());
             model.setTemplate(false);
             model.setContent(content);
