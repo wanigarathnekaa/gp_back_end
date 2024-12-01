@@ -20,9 +20,10 @@ import java.util.List;
 public class UploadLecturerModel implements UserDetails {
     @Id
     private String id;
-    private String lecturerId;
+    private String regNumber;
     private String name;
     private String email;
+    private String password;
     private String nic;
     private Role role;
     private String roleName;
@@ -40,7 +41,7 @@ public class UploadLecturerModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return lecturerId;
+        return regNumber;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class UploadLecturerModel implements UserDetails {
     public String toString() {
         return "UploadLecturerModel{" +
                 "id='" + id + '\'' +
-                ", lecturerId='" + lecturerId + '\'' +
+                ", lecturerId='" + regNumber + '\'' +
                 ", Name='" + name + '\'' +
                 ", Email='" + email + '\'' +
                 ", NIC='" + nic + '\'' +

@@ -28,7 +28,7 @@ public class LoginService {
     }
 
     public Optional<UploadLecturerModel> lecturerLogin(String lecturerId, String NIC) {
-        Optional<UploadLecturerModel> lecOpt = lecturerLoginRepository.findByLecturerId(lecturerId);
+        Optional<UploadLecturerModel> lecOpt = lecturerLoginRepository.findByRegNumber(lecturerId);
         if (lecOpt.isPresent() && lecOpt.get().getNic().equals(NIC)) {
 
             return lecOpt;

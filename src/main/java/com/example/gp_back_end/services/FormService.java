@@ -96,6 +96,7 @@ public class FormService {
 
         FormSubmissionModel formSubmission = FormSubmissionModel.builder()
                 .formId(form.getId())
+                .regNumber(request.getRegNumber())
                 .content(request.getContent())
                 .form(form)
                 .build();
@@ -225,5 +226,16 @@ public class FormService {
             return "error";
         }
     }
+
+    public boolean hasUserSubmittedForm(String formId, String regNumber) {
+        // Fetch all submissions for the given form ID
+        List<FormSubmissionModel> submissions = formSubmissionRepository.findByFormId(formId);
+
+        // Check if any submission is made by the user with the given regNumber
+        return submissions
+                .stream()
+                .anyMatch(submission -> regNumber.equals(submission.getRegNumber()));
+    }
+
 }
 

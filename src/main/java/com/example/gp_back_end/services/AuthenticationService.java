@@ -35,6 +35,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .nic(request.getNic())
                 .role(Role.STUDENT)
+                .roleName("Student")
                 .build();
         studentRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -45,11 +46,13 @@ public class AuthenticationService {
 
     public AuthenticationResponse singleLecturerRegister(RegisterRequest request) {
         var lecturer = UploadLecturerModel.builder()
-                .lecturerId(request.getLecturerId())
+                .regNumber(request.getRegNumber())
                 .name(request.getName())
                 .email(request.getEmail())
                 .nic(request.getNic())
+                .password(request.getNic())
                 .role(Role.LECTURER)
+                .roleName("Lecturer")
                 .build();
         lecturerRepository.save(lecturer);
         var jwtToken = jwtService.generateToken(lecturer);
@@ -93,7 +96,7 @@ public class AuthenticationService {
                         request.getNic()
                 )
         );
-        var user = lecturerLoginRepository.findByLecturerId(request.getLecturerId())
+        var user = lecturerLoginRepository.findByRegNumber(request.getLecturerId())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
