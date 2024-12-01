@@ -11,6 +11,6 @@ import lombok.*;
 public class AuthenticationRequest {
     private String lecturerId;
     private String regNumber;
-    private String NIC;
+    private String nic;
 }
  

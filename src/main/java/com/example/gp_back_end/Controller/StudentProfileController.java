@@ -6,8 +6,12 @@ import com.example.gp_back_end.services.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1/student")
+@CrossOrigin("*")
 public class StudentProfileController {
 
     private final StudentProfileService studentProfileService;
@@ -46,4 +50,13 @@ public class StudentProfileController {
             return ResponseEntity.status(404).body("Profile not found for id: " + id);
         }
     }
+
+    @PostMapping("/findUser")
+    public Optional<UploadStudentModel> getProfileByRegNumber(@RequestBody Map<String, String> payload) {
+        String regNumber = payload.get("regNumber");
+        System.out.println(regNumber);
+        return studentService.findStudentByRegNumber(regNumber);
+    }
+
+
 }

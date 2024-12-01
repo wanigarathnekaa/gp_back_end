@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ import java.util.Collection;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "lecturers")
+@Document(collection = "user")
 public class UploadLecturerModel implements UserDetails {
     @Id
     private String id;
@@ -24,6 +25,8 @@ public class UploadLecturerModel implements UserDetails {
     private String email;
     private String nic;
     private Role role;
+    private String roleName;
+    private List<String> course;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
