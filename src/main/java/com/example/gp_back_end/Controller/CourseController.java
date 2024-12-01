@@ -1,10 +1,13 @@
 package com.example.gp_back_end.Controller;
 
+import com.example.gp_back_end.model.CourseModel;
 import com.example.gp_back_end.services.UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +31,8 @@ public class CourseController {
         }
     }
 
-    @GetMapping("/courses")
-    public String getAllCourses() {
-        return service.getAllCourseData().toString();
+    @GetMapping("/allCourses")
+    public List<CourseModel> getAllCourses() {
+        return service.getAllCourseData();
     }
 }
