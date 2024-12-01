@@ -27,6 +27,7 @@ public class UploadStudentModel implements UserDetails {
     private String email;
     private String nic;
     private Role role;
+    private String roleName;
     private int semester;
     private int year;
 
