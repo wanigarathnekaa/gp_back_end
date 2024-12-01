@@ -15,7 +15,7 @@ import java.util.Collection;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "lecturers")
+@Document(collection = "user")
 public class UploadLecturerModel implements UserDetails {
     @Id
     private String id;
@@ -24,6 +24,7 @@ public class UploadLecturerModel implements UserDetails {
     private String email;
     private String nic;
     private Role role;
+    private String course;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

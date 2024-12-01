@@ -131,6 +131,8 @@ public class UploadReader {
             model.setName(getCellValue((XSSFCell) row.getCell(1)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(2)));
             model.setNic(getCellValue((XSSFCell) row.getCell(3)));
+            model.setRole(Role.LECTURER);
+            model.setCourse(getCellValue((XSSFCell) row.getCell(4)));
 
             models.add(model);
         }

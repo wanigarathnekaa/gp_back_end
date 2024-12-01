@@ -59,32 +59,37 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticateStudent(AuthenticationRequest request) {
-        System.out.println(request);
+        System.out.println("hb "+request);
 
         try {
             var x=authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getRegNumber(),
-                            request.getNIC()
+                            request.getNic()
                     )
             );
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        var user = studentLoginRepository.findByRegNumber(request.getRegNumber())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .build();
+        var user = studentLoginRepository.findByRegNumberAndNic(request.getRegNumber(),request.getNic());
+        if (user.isPresent()) {
+            var jwtToken = jwtService.generateToken(user.get());
+            return AuthenticationResponse.builder()
+                    .accessToken(jwtToken)
+                    .build();
+        }else{
+            return AuthenticationResponse.builder()
+                    .message("Invalid username or password")
+                    .build();
+        }
     }
 
     public AuthenticationResponse authenticateLecturer(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getLecturerId(),
-                        request.getNIC()
+                        request.getNic()
                 )
         );
         var user = lecturerLoginRepository.findByLecturerId(request.getLecturerId())
