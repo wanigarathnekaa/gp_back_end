@@ -24,13 +24,13 @@ public class AuthenticationController {
     }
 
 
-    @PostMapping("/authenticate/student")
-    public ResponseEntity<AuthenticationResponse> authenticateStudent(
+    @PostMapping("/authenticate/user")
+    public ResponseEntity<AuthenticationResponse> authenticateUser(
             @RequestBody AuthenticationRequest request
 
     ){
 
-        return ResponseEntity.ok(authenticationService.authenticateStudent(request));
+        return ResponseEntity.ok(authenticationService.authenticateUser(request));
     }
 
     @PostMapping("/register/lecturer")
