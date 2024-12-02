@@ -9,4 +9,5 @@ public interface StudentLoginRepository extends MongoRepository<UploadStudentMod
     Optional<UploadStudentModel> findByRegNumber(String regNumber);
 
     Optional<UploadStudentModel> findByRegNumberAndNic(String regNumber, String nic);
+    Optional<UploadStudentModel> findByRegNumberAndPassword(String regNumber, String Password);
 }

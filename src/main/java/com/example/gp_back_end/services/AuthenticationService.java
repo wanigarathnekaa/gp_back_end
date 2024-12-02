@@ -68,14 +68,14 @@ public class AuthenticationService {
             var x=authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getRegNumber(),
-                            request.getNic()
+                            request.getPassword()
                     )
             );
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        var user = studentLoginRepository.findByRegNumberAndNic(request.getRegNumber(),request.getNic());
+        var user = studentLoginRepository.findByRegNumberAndPassword(request.getRegNumber(),request.getPassword());
         if (user.isPresent()) {
             var jwtToken = jwtService.generateToken(user.get());
             return AuthenticationResponse.builder()
@@ -92,11 +92,11 @@ public class AuthenticationService {
     public AuthenticationResponse authenticateLecturer(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getLecturerId(),
+                        request.getRegNumber(),
                         request.getNic()
                 )
         );
-        var user = lecturerLoginRepository.findByRegNumber(request.getLecturerId())
+        var user = lecturerLoginRepository.findByRegNumber(request.getRegNumber())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
