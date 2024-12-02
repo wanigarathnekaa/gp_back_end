@@ -82,12 +82,14 @@ public class CourseService {
 
         // Fetch all courses for the given year and semester
         List<CourseModel> allCourses = courseRepository.findByYearAndSemester(year, semester);
+        System.out.println(allCourses);
 
         // Filter and map courses to include form URL
         return allCourses.stream()
                 .filter(course -> {
                     // Lookup formId using the course code
                     FormModel form = formRepository.findFormIdByCourse(course.getCourseCode());
+                    System.out.println(form);
                     String formId = form.getId();
                     if (formId == null) {
                         // Skip courses with no associated form
