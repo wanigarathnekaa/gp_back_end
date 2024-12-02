@@ -237,5 +237,17 @@ public class FormService {
                 .anyMatch(submission -> regNumber.equals(submission.getRegNumber()));
     }
 
+    public List<String> getUsersWhoFilledForm(String formId) {
+        // Fetch all submissions for the given form ID
+        List<FormSubmissionModel> submissions = formSubmissionRepository.findByFormId(formId);
+
+        // Extract and return the list of regNumbers from the submissions
+        return submissions.stream()
+                .map(FormSubmissionModel::getRegNumber)
+                .distinct() // Ensure unique regNumbers
+                .collect(Collectors.toList());
+    }
+
+
 }
 
