@@ -28,8 +28,8 @@ public class UploadStudentModel implements UserDetails {
     private String nic;
     private Role role;
     private String roleName;
-    private int semester;
-    private int year;
+    private String semester;
+    private String year;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
