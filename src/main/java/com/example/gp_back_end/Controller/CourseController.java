@@ -62,6 +62,7 @@ public class CourseController {
     @PostMapping("/FilledCourse")
     public List<CourseWithFormDTO> getFilledCourse(@RequestBody CourseRequest request) {
         //Getting Course that are not filled by an user
+        System.out.println(request.getSemester() + " - " + request.getYear() + " - " + request.getRegNumber());
         return courseService.getFilledCourses(request);
     }
 }
