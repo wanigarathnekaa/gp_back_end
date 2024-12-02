@@ -13,10 +13,26 @@ public class CloakService {
     @Autowired
     private CloakRepository cloakRepository;
 
-    public CloakModel addCloak(int smallCount, int mediumCount, int largeCount){
-        CloakModel cloak = new CloakModel(smallCount, mediumCount, largeCount);
+    public CloakModel getCloakCount() {
+        return cloakRepository.findByName("cloakCounts").orElse(null); // Fetch the cloakCounts entry by name
+    }
+
+    public CloakModel addOrUpdateCloak(String name, int smallCount, int mediumCount, int largeCount){
+        Optional<CloakModel> existingCloak = cloakRepository.findByName(name);
+        System.out.println("Name: " + name );
+
+        if (existingCloak.isPresent()){
+            CloakModel cloak = existingCloak.get();
+            cloak.setSmallCount(cloak.getSmallCount() + smallCount);
+            cloak.setMediumCount(cloak.getMediumCount() + mediumCount);
+            cloak.setLargeCount(cloak.getLargeCount() + largeCount);
+            return cloakRepository.save(cloak);
+        } else {
+            CloakModel newCloak = new CloakModel(name, smallCount, mediumCount, largeCount);
 //        CloakModel savedCloak = cloakRepository.save(cloak);
-        return cloakRepository.save(cloak);
+//            newCloak.setName(name);
+            return cloakRepository.save(newCloak);
+        }
     }
 
 }
