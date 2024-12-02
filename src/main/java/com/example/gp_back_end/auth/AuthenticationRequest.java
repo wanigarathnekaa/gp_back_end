@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationRequest {
-    private String lecturerId;
+    private String password;
     private String regNumber;
     private String nic;
 }
