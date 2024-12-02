@@ -37,6 +37,7 @@ public class FormController {
 
     @PostMapping("/submit")
     public ResponseEntity<?> submitForm(@RequestBody FormSubmissionRequest request) {
+        System.out.println("request" + request.getRegNumber());
         System.out.println("request" + request.getFormURL());
         System.out.println("request" + request.getContent());
         try {

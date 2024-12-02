@@ -18,6 +18,7 @@ public class FormSubmissionModel {
     @Id
     private String id;
     private String formId;
+    private String regNumber;
     @CreatedDate
     private  LocalDateTime createdAt = LocalDateTime.now();
     private String content;

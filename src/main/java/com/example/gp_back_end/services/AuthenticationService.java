@@ -35,6 +35,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .nic(request.getNic())
                 .role(Role.STUDENT)
+                .roleName("Student")
                 .build();
         studentRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -45,11 +46,13 @@ public class AuthenticationService {
 
     public AuthenticationResponse singleLecturerRegister(RegisterRequest request) {
         var lecturer = UploadLecturerModel.builder()
-                .lecturerId(request.getLecturerId())
+                .regNumber(request.getRegNumber())
                 .name(request.getName())
                 .email(request.getEmail())
                 .nic(request.getNic())
+                .password(request.getNic())
                 .role(Role.LECTURER)
+                .roleName("Lecturer")
                 .build();
         lecturerRepository.save(lecturer);
         var jwtToken = jwtService.generateToken(lecturer);
@@ -58,36 +61,42 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticateStudent(AuthenticationRequest request) {
+    public AuthenticationResponse authenticateUser(AuthenticationRequest request) {
         System.out.println(request);
 
         try {
             var x=authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getRegNumber(),
-                            request.getNIC()
+                            request.getPassword()
                     )
             );
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        var user = studentLoginRepository.findByRegNumber(request.getRegNumber())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .build();
+        var user = studentLoginRepository.findByRegNumberAndPassword(request.getRegNumber(),request.getPassword());
+        if (user.isPresent()) {
+            var jwtToken = jwtService.generateToken(user.get());
+            return AuthenticationResponse.builder()
+                    .accessToken(jwtToken)
+                    .message("Welcome " + user.get().getName())
+                    .build();
+        }else{
+            return AuthenticationResponse.builder()
+                    .message("Invalid username or password")
+                    .build();
+        }
     }
 
     public AuthenticationResponse authenticateLecturer(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getLecturerId(),
-                        request.getNIC()
+                        request.getRegNumber(),
+                        request.getNic()
                 )
         );
-        var user = lecturerLoginRepository.findByLecturerId(request.getLecturerId())
+        var user = lecturerLoginRepository.findByRegNumber(request.getRegNumber())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

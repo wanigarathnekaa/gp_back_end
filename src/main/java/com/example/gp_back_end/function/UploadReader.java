@@ -105,8 +105,9 @@ public class UploadReader {
             model.setNic(getCellValue((XSSFCell) row.getCell(4)));
             model.setPassword(getCellValue((XSSFCell) row.getCell(4)));
             model.setRole(getRoleFromCellValue(getCellValue((XSSFCell) row.getCell(5)))); // Assuming the role is in the 6th column
+            model.setRoleName("Student");
             model.setSemester(Integer.parseInt(getCellValue((XSSFCell) row.getCell(6))));
-            model.setSemester(Integer.parseInt(getCellValue((XSSFCell) row.getCell(7))));
+            model.setYear(Integer.parseInt(getCellValue((XSSFCell) row.getCell(7))));
 
             models.add(model);
         }
@@ -127,10 +128,20 @@ public class UploadReader {
             }
 
             UploadLecturerModel model = new UploadLecturerModel();
-            model.setLecturerId(getCellValue((XSSFCell) row.getCell(0)));
+            model.setRegNumber(getCellValue((XSSFCell) row.getCell(0)));
             model.setName(getCellValue((XSSFCell) row.getCell(1)));
             model.setEmail(getCellValue((XSSFCell) row.getCell(2)));
             model.setNic(getCellValue((XSSFCell) row.getCell(3)));
+            model.setPassword(getCellValue((XSSFCell) row.getCell(3)));
+            model.setRole(Role.LECTURER);
+            model.setRoleName("Lecturer");
+            String coursesCell = getCellValue((XSSFCell) row.getCell(4));
+            if (coursesCell != null && !coursesCell.isEmpty()) {
+                List<String> courses = Arrays.asList(coursesCell.split(",\\s*"));
+                model.setCourse(courses);
+            } else {
+                model.setCourse(Collections.emptyList());
+            }
 
             models.add(model);
         }
@@ -160,6 +171,7 @@ public class UploadReader {
             model.setUserId(("REG123456"));
             model.setName(getCellValue((XSSFCell) row.getCell(0)));
             model.setDescription(getCellValue((XSSFCell) row.getCell(1)));
+            model.setCourse(getCellValue((XSSFCell) row.getCell(2)));
             model.setCreatedAt(LocalDateTime.now());
             model.setTemplate(false);
             model.setContent(content);
