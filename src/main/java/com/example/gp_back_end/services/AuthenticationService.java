@@ -78,9 +78,11 @@ public class AuthenticationService {
         var user = studentLoginRepository.findByRegNumberAndNic(request.getRegNumber(),request.getNic());
         if (user.isPresent()) {
             var jwtToken = jwtService.generateToken(user.get());
+            var role = user.get().getRoleName();
             return AuthenticationResponse.builder()
                     .accessToken(jwtToken)
                     .message("Welcome " + user.get().getName())
+                    .roleName(role)
                     .build();
         }else{
             return AuthenticationResponse.builder()
