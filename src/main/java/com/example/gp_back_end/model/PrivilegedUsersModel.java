@@ -1,4 +1,4 @@
-package com.example.gp_back_end.services;
+package com.example.gp_back_end.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -18,4 +18,5 @@ public class PrivilegedUsersModel {
     private String email;
     private String nic;
     private String password;
+    private String regNumber;
 }
