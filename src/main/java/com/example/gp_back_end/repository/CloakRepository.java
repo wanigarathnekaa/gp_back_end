@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface CloakRepository extends MongoRepository<CloakModel, String> {
-    Optional<CloakModel> findById (String id);
+    Optional<CloakModel> findByName (String name);
 }
