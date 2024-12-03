@@ -219,10 +219,10 @@ public class FormService {
 
     public String importData(MultipartFile file, String content) throws IOException {
         List<FormModel> models = uploadReader.formBulkUpload(file, content);
-        if(!models.isEmpty()){
+        if (!models.isEmpty()) {
             formRepository.saveAll(models);
             return "success";
-        }else {
+        } else {
             return "error";
         }
     }

@@ -15,8 +15,26 @@ public class CloakController {
     @Autowired
     private CloakService cloakService;
 
-    @PostMapping("/add")
-    public CloakModel addCloak(@RequestBody CloakModel cloakModel){
-        return cloakService.addCloak(cloakModel.getSmallCount(), cloakModel.getMediumCount(), cloakModel.getLargeCount());
+    @GetMapping("/current")
+    public CloakModel getCloakCount() {
+        return cloakService.getCloakCount();
+    }
+
+    @PostMapping("/save")
+    public CloakModel addOrUpdateCloak(@RequestBody CloakModel cloakModel){
+
+        String name = cloakModel.getName();
+        int smallCount = cloakModel.getSmallCount();
+        int mediumCount = cloakModel.getMediumCount();
+        int largeCount = cloakModel.getLargeCount();
+        return cloakService.addOrUpdateCloak(name, smallCount, mediumCount, largeCount);
+    }
+
+    @PostMapping("/remove")
+    public CloakModel removeCloak(@RequestBody CloakModel cloakModel){
+        int smallCount = cloakModel.getSmallCount();
+        int mediumCount = cloakModel.getMediumCount();
+        int largeCount = cloakModel.getLargeCount();
+        return cloakService.removeCloak(smallCount, mediumCount, largeCount);
     }
 }
