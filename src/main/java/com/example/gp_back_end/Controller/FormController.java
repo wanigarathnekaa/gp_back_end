@@ -11,7 +11,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +30,14 @@ public class FormController {
         return formService.getFormStats();
     }
 
+    @GetMapping("/stats/LineChart")
+    public List<Map<String, Object>> getFormStatsForLineChart() {
+        return formService.getFormStatsForLineChart();
+    }
+
     @PostMapping("/submit")
     public ResponseEntity<?> submitForm(@RequestBody FormSubmissionRequest request) {
+        System.out.println("request" + request.getRegNumber());
         System.out.println("request" + request.getFormURL());
         System.out.println("request" + request.getContent());
         try {
@@ -73,7 +81,15 @@ public class FormController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createForm(@RequestBody @Valid FormRequest formRequest) {
-        String formId = formService.createForm(formRequest);
+        System.out.println(formRequest);
+        String formId = formService.createForm(formRequest, 0);
+        return ResponseEntity.ok(formId);
+    }
+
+    @PostMapping("/createFormTemplate")
+    public ResponseEntity<String> createFormTemplate(@RequestBody @Valid FormRequest formRequest) {
+        System.out.println(formRequest);
+        String formId = formService.createForm(formRequest, 1);
         return ResponseEntity.ok(formId);
     }
 
@@ -82,9 +98,35 @@ public class FormController {
         return formService.getAllForms();
     }
 
+    @GetMapping("/templates")
+    public List<FormModel> getAllTemplates() {
+        return formService.getAllTemplates();
+    }
+
     @GetMapping("/view/{formUrl}")
     public FormModel getFormContentByUrl(@PathVariable String formUrl) {
+        System.out.println(formUrl);
         return formService.getFormContentByUrl(formUrl);
+    }
+
+    @GetMapping("/{id}/template_content")
+    public String getFormTemplateContent(@PathVariable String id) {
+        return formService.getFormTemplateContent(id);
+    }
+
+    @PostMapping("/bulkForms")
+    public String importBulkForms(@RequestParam("file") MultipartFile file, @RequestParam("content") String content) {
+        try {
+            String response = formService.importData(file, content);
+            if(response.equals("success")){
+                return "Data imported successfully!";
+            }else if(response.equals("error")){
+                return "Already exist users are found";
+            }
+            return "Data import fail!";
+        } catch (IOException e) {
+            return "Failed to import data: " + e.getMessage();
+        }
     }
 
 }

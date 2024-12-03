@@ -30,7 +30,7 @@ public class StudentLoginController {
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest loginRequest) {
         Optional<UploadStudentModel> student = loginService.studentLogin(loginRequest.getRegNumber(), loginRequest.getNIC());
-        return student.map(value -> "Welcome " + value.getName())
+        return student.map(value -> "Welcome " + value.getName() + " " + value.getId())
                 .orElse("Invalid credentials");
     }
 

@@ -23,9 +23,9 @@ public class CloakService {
 
         if (existingCloak.isPresent()){
             CloakModel cloak = existingCloak.get();
-            cloak.setSmallCount(cloak.getSmallCount() + smallCount);
-            cloak.setMediumCount(cloak.getMediumCount() + mediumCount);
-            cloak.setLargeCount(cloak.getLargeCount() + largeCount);
+            cloak.setSmallCount(Math.max(0,cloak.getSmallCount() + smallCount));
+            cloak.setMediumCount(Math.max(0, cloak.getMediumCount() + mediumCount));
+            cloak.setLargeCount(Math.max(0,cloak.getLargeCount() + largeCount));
             return cloakRepository.save(cloak);
         } else {
             CloakModel newCloak = new CloakModel(name, smallCount, mediumCount, largeCount);

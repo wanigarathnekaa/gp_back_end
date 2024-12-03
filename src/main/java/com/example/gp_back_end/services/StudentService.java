@@ -1,31 +1,39 @@
 package com.example.gp_back_end.services;
 
 import com.example.gp_back_end.model.StudentDetailsModel;
+import com.example.gp_back_end.model.UploadStudentModel;
 import com.example.gp_back_end.repository.StudentDetailsRepository;
-import com.example.gp_back_end.repository.StudentLoginRepository;
+import com.example.gp_back_end.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StudentService {
+    private final StudentRepository studentRepository;
 
-    @Autowired
-    private StudentDetailsRepository studentDetailsRepository;
 
-    public List<StudentDetailsModel> getAllStudents(){
-        List<StudentDetailsModel> students = studentDetailsRepository.findAll();
-        System.out.println("Fetched Students: " +students);
-        return students;
-    }
-    public Optional<StudentDetailsModel> getStudentByRegNo(String regNo){
-        return studentDetailsRepository.findByRegNo(regNo);
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
-    public StudentDetailsModel getUserById(String id){
-        return studentDetailsRepository.findById(id).orElse(null);
+    public String changePassword(String regNumber, String currentPassword, String newPassword) {
+        UploadStudentModel student = studentRepository.findByRegNumber(regNumber)
+                .orElseThrow(() -> new IllegalArgumentException("Student not found"));
+
+        if (!student.getPassword().equals(currentPassword)) {
+            throw new IllegalArgumentException("Incorrect password");
+        }
+
+        student.setPassword(newPassword);
+        studentRepository.save(student);
+
+        return "Password changed successfully";
+    }
+
+    public Optional<UploadStudentModel> findStudentByRegNumber(String regNumber) {
+        return studentRepository.findByRegNumber(regNumber);
     }
 
 }

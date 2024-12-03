@@ -3,17 +3,20 @@ package com.example.gp_back_end.services;
 import com.example.gp_back_end.dto.FormRequest;
 import com.example.gp_back_end.dto.FormStats;
 import com.example.gp_back_end.dto.FormSubmissionRequest;
+import com.example.gp_back_end.function.UploadReader;
 import com.example.gp_back_end.model.FormModel;
 import com.example.gp_back_end.model.FormSubmissionModel;
 import com.example.gp_back_end.repository.FormRepository;
 import com.example.gp_back_end.repository.FormSubmissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class FormService {
 
     private final FormRepository formRepository;
     private final FormSubmissionRepository formSubmissionRepository;
+    private final UploadReader uploadReader;
 
     public FormStats getFormStats() {
         // Fetch all forms for the given user
@@ -44,6 +48,39 @@ public class FormService {
         return new FormStats(totalVisits, totalSubmissions, submissionRate, bounceRate);
     }
 
+    public List<Map<String, Object>> getFormStatsForLineChart() {
+        // Fetch all forms
+        List<FormModel> forms = formRepository.findAll();
+
+        // Group visits and submissions by date
+        Map<LocalDate, int[]> statsByDate = new HashMap<>();
+
+        for (FormModel form : forms) {
+            if (form.getCreatedAt() != null) {
+                LocalDate date = form.getCreatedAt().toLocalDate();
+
+                // Initialize or update the stats for this date
+                statsByDate.putIfAbsent(date, new int[]{0, 0});
+                statsByDate.get(date)[0] += (form.getVisits() != null) ? form.getVisits() : 0;
+                statsByDate.get(date)[1] += (form.getSubmissions() != null) ? form.getSubmissions() : 0;
+            }
+        }
+
+        // Convert to a list of maps (or any preferred data structure)
+        return statsByDate.entrySet().stream()
+                .map(entry -> {
+                    LocalDate date = entry.getKey();
+                    int[] stats = entry.getValue();
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("date", date.toString());
+                    map.put("visits", stats[0]);
+                    map.put("submissions", stats[1]);
+                    return map;
+                })
+                .sorted(Comparator.comparing(map -> (String) map.get("date"))) // Ensure data is sorted by date
+                .collect(Collectors.toList());
+    }
+
     public FormSubmissionModel saveFormSubmission(FormSubmissionRequest request) throws Exception {
         Optional<FormModel> formOptional = formRepository.findByShareURL(request.getFormURL());
         if (formOptional.isEmpty()) {
@@ -59,6 +96,7 @@ public class FormService {
 
         FormSubmissionModel formSubmission = FormSubmissionModel.builder()
                 .formId(form.getId())
+                .regNumber(request.getRegNumber())
                 .content(request.getContent())
                 .form(form)
                 .build();
@@ -111,17 +149,35 @@ public class FormService {
         formRepository.save(form);
     }
 
-    public String createForm(FormRequest formRequest) {
-        FormModel form = FormModel.builder()
-                .userId("REG123456")
-                .name(formRequest.getName())
-                .description(formRequest.getDescription())
-                .createdAt(LocalDateTime.now())
-                .published(false)
-                .visits(0)
-                .submissions(0)
-                .shareURL(generateShareURL())
-                .build();
+    public String createForm(FormRequest formRequest, int template) {
+        FormModel form;
+        if (template == 1) {
+            form = FormModel.builder()
+                    .userId("REG123456")
+                    .name(formRequest.getName())
+                    .description(formRequest.getDescription())
+                    .content(formRequest.getContent())
+                    .template(formRequest.getTemplate())
+                    .createdAt(LocalDateTime.now())
+                    .published(false)
+                    .visits(0)
+                    .submissions(0)
+                    .shareURL(generateShareURL())
+                    .build();
+        }else{
+            form = FormModel.builder()
+                    .userId("REG123456")
+                    .name(formRequest.getName())
+                    .description(formRequest.getDescription())
+                    .template(formRequest.getTemplate())
+                    .course(formRequest.getCourse())
+                    .createdAt(LocalDateTime.now())
+                    .published(false)
+                    .visits(0)
+                    .submissions(0)
+                    .shareURL(generateShareURL())
+                    .build();
+        }
 
         FormModel savedForm = formRepository.save(form);
         return savedForm.getId();
@@ -136,6 +192,10 @@ public class FormService {
         return formRepository.findAll();
     }
 
+    public List<FormModel> getAllTemplates() {
+        return formRepository.findByTemplate(true);
+    }
+
     public FormModel getFormContentByUrl(String formUrl) {
         Optional<FormModel> optionalForm = formRepository.findByShareURL(formUrl);
 
@@ -148,5 +208,46 @@ public class FormService {
             throw new RuntimeException("Form not found with URL: " + formUrl);
         }
     }
+
+    public String getFormTemplateContent(String id) {
+        Optional<FormModel> optionalForm = formRepository.findById(id);
+        if (optionalForm.isPresent()) {
+            return optionalForm.get().getContent();
+        }
+        throw new RuntimeException("Form not found with ID: " + id);
+    }
+
+    public String importData(MultipartFile file, String content) throws IOException {
+        List<FormModel> models = uploadReader.formBulkUpload(file, content);
+        if (!models.isEmpty()) {
+            formRepository.saveAll(models);
+            return "success";
+        } else {
+            return "error";
+        }
+    }
+
+    public boolean hasUserSubmittedForm(String formId, String regNumber) {
+        // Fetch all submissions for the given form ID
+        List<FormSubmissionModel> submissions = formSubmissionRepository.findByFormId(formId);
+
+        // Check if any submission is made by the user with the given regNumber
+        return submissions
+                .stream()
+                .anyMatch(submission -> regNumber.equals(submission.getRegNumber()));
+    }
+
+    public List<String> getUsersWhoFilledForm(String formId) {
+        // Fetch all submissions for the given form ID
+        List<FormSubmissionModel> submissions = formSubmissionRepository.findByFormId(formId);
+
+        // Extract and return the list of regNumbers from the submissions
+        return submissions.stream()
+                .map(FormSubmissionModel::getRegNumber)
+                .distinct() // Ensure unique regNumbers
+                .collect(Collectors.toList());
+    }
+
+
 }
 

@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface StudentLoginRepository extends MongoRepository<UploadStudentModel, String> {
     Optional<UploadStudentModel> findByRegNumber(String regNumber);
+
+    Optional<UploadStudentModel> findByRegNumberAndNic(String regNumber, String nic);
+    Optional<UploadStudentModel> findByRegNumberAndPassword(String regNumber, String Password);
 }

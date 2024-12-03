@@ -1,6 +1,7 @@
 package com.example.gp_back_end.Controller;
 
 import com.example.gp_back_end.model.StudentDetailsModel;
+import com.example.gp_back_end.services.StudentDetailsService;
 import com.example.gp_back_end.services.StudentService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.List;
 public class StudentDetailsController {
 
     @Autowired
-    private StudentService studentService;
+    private StudentDetailsService studentService;
 
     @GetMapping("/all")
     public List<StudentDetailsModel> getAllStudents(){

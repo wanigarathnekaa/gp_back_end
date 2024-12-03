@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface LecturerLoginRepository extends MongoRepository<UploadLecturerModel, String> {
-    Optional<UploadLecturerModel> findByLecturerId(String lecturerId);
+    Optional<UploadLecturerModel> findByRegNumber(String lecturerId);
 }

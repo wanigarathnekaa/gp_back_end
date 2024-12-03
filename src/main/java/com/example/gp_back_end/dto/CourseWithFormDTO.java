@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FormSubmissionRequest {
-    private String regNumber;
-    private String formURL;
-    private String content;
+public class CourseWithFormDTO {
+    private String courseCode;
+    private String courseName;
+    private String formUrl;
 }
