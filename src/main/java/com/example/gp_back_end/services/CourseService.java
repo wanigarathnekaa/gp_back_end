@@ -12,10 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -128,13 +126,22 @@ public class CourseService {
             // Fetch associated form details
             FormModel form = formRepository.findFormIdByCourse(course.getCourseCode());
 
+            boolean isFilled = true;
+            String formName;
+            LocalDateTime formCreatedDate;
             // Skip courses with no associated form
             if (form == null) {
-                continue;
+                isFilled = false;
+                formName = "No Form";
+                formCreatedDate = LocalDateTime.now();
+            }else{
+                // Determine if the form is filled or not
+                isFilled = formService.hasUserSubmittedForm(form.getId(), request.getRegNumber());
+                formName = form.getName();
+                formCreatedDate = form.getCreatedAt();
             }
 
-            // Determine if the form is filled or not
-            boolean isFilled = formService.hasUserSubmittedForm(form.getId(), request.getRegNumber());
+
 
             // Fetch lecturers for the course
             List<UploadLecturerModel> lecturers = lecturerRepository.findByCourseContaining(course.getCourseCode());
@@ -152,12 +159,12 @@ public class CourseService {
             courseData.put("moduleName", course.getCourseName());
             courseData.put("moduleCode", course.getCourseCode());
             courseData.put("lecturers", lecturerDetails);
-            courseData.put("formName", form.getName());
-            courseData.put("distributedAt", form.getCreatedAt());
+            courseData.put("formName", formName) ;
+            courseData.put("distributedAt", formCreatedDate);
             courseData.put("status", isFilled ? "Filled" : "Not Filled");
             courseData.put("dueDate", LocalDate.of(2024, 12, 1)); // Set due date to December 1st, 2024
-            courseData.put("isNew", form.getCreatedAt() != null
-                    && form.getCreatedAt().isAfter(LocalDate.now().minusDays(7).atStartOfDay()));
+            courseData.put("isNew", formCreatedDate!= null
+                    && formCreatedDate.isAfter(LocalDate.now().minusDays(7).atStartOfDay()));
 
             // Add to the result list
             result.add(courseData);
