@@ -35,13 +35,8 @@ public class UploadController {
     @PostMapping("/import/students")
     public String importStudentData(@RequestParam("file") MultipartFile file) {
         try {
-            String response = service.importData(file);
-            if(response.equals("success")){
-                return "Data imported successfully!";
-            }else if(response.equals("error")){
-                return "Already exist users are found";
-            }
-            return "Data import fail!";
+            service.importData(file);
+            return "Data imported successfully!";
         } catch (IOException e) {
             return "Failed to import data: " + e.getMessage();
         }

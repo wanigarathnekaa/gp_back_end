@@ -1,10 +1,8 @@
 package com.example.gp_back_end.services;
 
 import com.example.gp_back_end.function.UploadReader;
-import com.example.gp_back_end.model.CourseModel;
 import com.example.gp_back_end.model.UploadLecturerModel;
 import com.example.gp_back_end.model.UploadStudentModel;
-import com.example.gp_back_end.repository.CourseRepository;
 import com.example.gp_back_end.repository.LecturerRepository;
 import com.example.gp_back_end.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +21,11 @@ public class UploadService {
     private LecturerRepository lecturerRepository;
 
     @Autowired
-    private CourseRepository courseRepository;
-
-    @Autowired
     private UploadReader uploadReader;
 
-    public String importData(MultipartFile file) throws IOException {
+    public void importData(MultipartFile file) throws IOException {
         List<UploadStudentModel> models = uploadReader.readStudentExcel(file);
-        if(!models.isEmpty()){
-            studentRepository.saveAll(models);
-            return "success";
-        }else {
-            return "error";
-        }
+        studentRepository.saveAll(models);
     }
 
     public List<UploadStudentModel> getAllData() {
@@ -49,15 +39,6 @@ public class UploadService {
 
     public List<UploadLecturerModel> getAllLecturerData() {
         return lecturerRepository.findAll();
-    }
-
-    public void importCourseData(MultipartFile file) throws IOException {
-        List<CourseModel> models = uploadReader.readCourseExcel(file);
-        courseRepository.saveAll(models);
-    }
-
-    public List<CourseModel> getAllCourseData() {
-        return courseRepository.findAll();
     }
 }
 

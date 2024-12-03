@@ -39,6 +39,11 @@ public class UploadLecturerModel implements UserDetails {
         return nic;
     }
 
+
+    public void setId(String id){
+        this.id  = id;
+    }
+
     @Override
     public String getUsername() {
         return regNumber;
