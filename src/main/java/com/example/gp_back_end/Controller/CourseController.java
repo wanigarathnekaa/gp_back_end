@@ -42,7 +42,7 @@ public class CourseController {
         return service.getAllCourseData();
     }
 
-    @PostMapping("/studentCourses")
+    @PostMapping("/userCourses")
     public List<CourseModel> getUserCourses(@RequestBody CourseRequest request) {
         System.out.println(request.getYear());
         return courseService.getUserCourses(request);

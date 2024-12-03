@@ -129,16 +129,19 @@ public class CourseService {
             boolean isFilled = true;
             String formName;
             LocalDateTime formCreatedDate;
+            String link;
             // Skip courses with no associated form
             if (form == null) {
                 isFilled = false;
                 formName = "No Form";
                 formCreatedDate = LocalDateTime.now();
+                link = "No Link";
             }else{
                 // Determine if the form is filled or not
                 isFilled = formService.hasUserSubmittedForm(form.getId(), request.getRegNumber());
                 formName = form.getName();
                 formCreatedDate = form.getCreatedAt();
+                link = form.getShareURL();
             }
 
 
@@ -162,6 +165,7 @@ public class CourseService {
             courseData.put("formName", formName) ;
             courseData.put("distributedAt", formCreatedDate);
             courseData.put("status", isFilled ? "Filled" : "Not Filled");
+            courseData.put("link", link);
             courseData.put("dueDate", LocalDate.of(2024, 12, 1)); // Set due date to December 1st, 2024
             courseData.put("isNew", formCreatedDate!= null
                     && formCreatedDate.isAfter(LocalDate.now().minusDays(7).atStartOfDay()));
