@@ -39,4 +39,9 @@ public class UserRoleController {
     public List<UserRoleModel> getAllRoles() {
         return userRoleService.getAllRoles();
     }
+
+    @GetMapping("/getprivileges/{roleName}")
+    public List<String> getPrivileges(@PathVariable String roleName) {
+        return userRoleService.getPrivileges(roleName);
+    }
 }

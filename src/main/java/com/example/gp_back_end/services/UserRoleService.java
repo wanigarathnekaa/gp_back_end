@@ -29,4 +29,8 @@ public class UserRoleService {
     public List<UserRoleModel> getAllRoles() {
         return userRoleRepository.findAll();
     }
+
+    public List<String> getPrivileges(String roleName) {
+        return userRoleRepository.findByRoleName(roleName).getSelectedPrivileges();
+    }
 }
