@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface LecturerRepository extends MongoRepository<UploadLecturerModel, String> {
     UploadLecturerModel findByRegNumber(String regNumber);
+
+    List<UploadLecturerModel> findByCourseContaining(String courseCode);
 }

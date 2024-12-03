@@ -104,10 +104,10 @@ public class UploadReader {
             model.setEmail(getCellValue((XSSFCell) row.getCell(3)));
             model.setNic(getCellValue((XSSFCell) row.getCell(4)));
             model.setPassword(getCellValue((XSSFCell) row.getCell(4)));
-            model.setRole(getRoleFromCellValue(getCellValue((XSSFCell) row.getCell(5)))); // Assuming the role is in the 6th column
+            model.setRole(Role.STUDENT); // Assuming the role is in the 6th column
             model.setRoleName("Student");
-            model.setSemester(Integer.parseInt(getCellValue((XSSFCell) row.getCell(6))));
-            model.setYear(Integer.parseInt(getCellValue((XSSFCell) row.getCell(7))));
+            model.setSemester(getCellValue((XSSFCell) row.getCell(5)));
+            model.setYear(getCellValue((XSSFCell) row.getCell(6)));
 
             models.add(model);
         }

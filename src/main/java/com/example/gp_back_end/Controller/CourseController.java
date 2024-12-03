@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,6 +63,13 @@ public class CourseController {
     @PostMapping("/FilledCourse")
     public List<CourseWithFormDTO> getFilledCourse(@RequestBody CourseRequest request) {
         //Getting Course that are not filled by an user
+        System.out.println(request.getSemester() + " - " + request.getYear() + " - " + request.getRegNumber());
         return courseService.getFilledCourses(request);
     }
-}
+
+    @PostMapping("/studentCourse")
+    public List<Map<String, Object>> getStudentCourses(@RequestBody CourseRequest request) {
+        return courseService.getStudentCourses(request);
+    }
+
+    }
