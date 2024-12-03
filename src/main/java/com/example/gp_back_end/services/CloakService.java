@@ -35,4 +35,19 @@ public class CloakService {
         }
     }
 
+    public CloakModel removeCloak(int smallCount, int mediumCount, int largeCount){
+        Optional<CloakModel> existingCloak = cloakRepository.findByName("cloakCounts");
+
+        if(existingCloak.isPresent()){
+            CloakModel cloak = existingCloak.get();
+
+            cloak.setSmallCount(Math.max(cloak.getSmallCount() - smallCount, 0));
+            cloak.setMediumCount(Math.max(cloak.getMediumCount() - mediumCount, 0));
+            cloak.setLargeCount(Math.max(cloak.getLargeCount() - largeCount, 0));
+
+            return cloakRepository.save(cloak);
+        } else {
+            throw new IllegalStateException("No cloak counts found to remove");
+        }
+    }
 }

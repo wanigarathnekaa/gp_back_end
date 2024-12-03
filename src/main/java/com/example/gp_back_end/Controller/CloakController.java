@@ -29,4 +29,14 @@ public class CloakController {
         int largeCount = cloakModel.getLargeCount();
         return cloakService.addOrUpdateCloak(name, smallCount, mediumCount, largeCount);
     }
+
+    @PostMapping("/remove")
+    public CloakModel removeCloak(@RequestBody CloakModel cloakModel){
+        int smallCount = cloakModel.getSmallCount();
+        int mediumCount = cloakModel.getMediumCount();
+        int largeCount = cloakModel.getLargeCount();
+        return cloakService.removeCloak(smallCount, mediumCount, largeCount);
+    }
+
+
 }
