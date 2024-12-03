@@ -34,7 +34,7 @@ public class PrivilegedUsersService {
         newPrivilegedUser.setName(name);
         newPrivilegedUser.setEmail(email);
         newPrivilegedUser.setNic(nic);
-        newPrivilegedUser.setPassword(passwordEncoder.encode(nic));
+        newPrivilegedUser.setPassword(nic);
         newPrivilegedUser.setRegNumber(generateUniqueRegNumber());
 
         return privilegedUsersRepository.save(newPrivilegedUser);
