@@ -23,7 +23,6 @@ public class StudentDetailsController {
 
     @Autowired
     private StudentDetailsService studentService;
-
     @GetMapping("/all")
     public List<StudentDetailsModel> getAllStudents(){
         System.out.println("Inside getAllStudents");

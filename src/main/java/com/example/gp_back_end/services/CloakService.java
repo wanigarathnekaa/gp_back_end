@@ -12,7 +12,6 @@ public class CloakService {
 
     @Autowired
     private CloakRepository cloakRepository;
-
     public CloakModel getCloakCount() {
         return cloakRepository.findByName("cloakCounts").orElse(null); // Fetch the cloakCounts entry by name
     }

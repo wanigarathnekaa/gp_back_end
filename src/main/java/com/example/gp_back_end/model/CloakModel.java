@@ -25,7 +25,6 @@ public class CloakModel {
     public String getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
@@ -49,7 +48,6 @@ public class CloakModel {
     public void setName(String name) {
         this.name = name;
     }
-
     public void setSmallCount(int smallCount) {
         this.smallCount = smallCount;
     }

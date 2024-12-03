@@ -37,6 +37,4 @@ public class CloakController {
         int largeCount = cloakModel.getLargeCount();
         return cloakService.removeCloak(smallCount, mediumCount, largeCount);
     }
-
-
 }
